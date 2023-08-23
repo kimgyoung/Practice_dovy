@@ -175,56 +175,57 @@ public class test {
         */
 
 
-        int value = 12;
+        /*
+        int month = 12;
 
         switch(value)
         {
             case 1:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 2:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 3:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 4:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 5:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 6:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 7:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 8:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 9:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 10:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 11:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             case 12:
-                System.out.println(value + "월");
+                System.out.println(month + "월");
                 break;
 
             default:
@@ -232,16 +233,49 @@ public class test {
                 break;
                 // default 는 아무것도 해당 하는 값이 없을 때 무조건 출력되게 하는
 
-
         }
+        */
 
 
+        // 서점
+        // 판타지, 부동산
+        // 로맨스, SA
+        // 경매, 중매
 
 
+        int value1 = 1;
+        int value2 = 2;
 
+        switch(value1)
+        {
 
+            case 1:
+                switch (value2)
+                {
+                    case 1:
+                            System.out.println("판타지");
+                        break;
 
+                    case 2:
+                        System.out.println("로맨스");
+                        break;
 
+                }
+                break;
+
+            case 2:
+                switch (value2)
+                {
+                    case 1:
+                        System.out.println("부동산");
+                        break;
+
+                    case 2:
+                        System.out.println("SA");
+                        break;
+                }
+                break;
+        }
 
 
 
