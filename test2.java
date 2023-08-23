@@ -213,7 +213,7 @@ public class test2 {
 
          */
 
-        /*
+
         int year = 2023 - 1626;
         double money = 24.0;
         int i = 0;
@@ -228,8 +228,9 @@ public class test2 {
         }
         System.out.println(money);
 
-         */
 
+
+        /*
         int year = 1626;
         double money = 24.0;
 
@@ -239,6 +240,8 @@ public class test2 {
             money *= 1.03;
         }
         System.out.println(money);
+
+         */
 
 
 
