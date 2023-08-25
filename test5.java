@@ -36,17 +36,21 @@ public class test5 {
 
          */
 
+        final int X = 3;
+        final int Y = 3;
+        final int Z = 2;
+
         // 3차원 배열
         int[][][] array = new int[Z][Y][X];
 
-        array[0][0][0] = 1;
-        array[0][0][1] = 2;
-        array[0][1][0] = 3;
-        array[0][1][1] = 4;
-        array[1][0][0] = 5;
-        array[1][0][1] = 6;
-        array[1][1][0] = 7;
-        array[1][1][1] = 8;
+        array[0][0][0] = 1;     // or ?;
+        array[0][0][1] = 2;     // or ?;
+        array[0][1][0] = 3;     // or ?;
+        array[0][1][1] = 4;     // or ?;
+        array[1][0][0] = 5;     // or ?;
+        array[1][0][1] = 6;     // or ?;
+        array[1][1][0] = 7;     // or ?;
+        array[1][1][1] = 8;     // or ?;
 
 
         /*
@@ -60,12 +64,6 @@ public class test5 {
         }
 
          */
-
-
-
-        final int X = 3;
-        final int Y = 3;
-        final int Z = 2;
 
         int n = 0;
         for(int i = 0; i < Z; ++i)
@@ -81,13 +79,27 @@ public class test5 {
         }
 
 
+        String name = "홍길동";
+        boolean isEqual = name.equals("홍길동");
+        System.out.println(isEqual);
 
+        /*
+        int[] i;
+        {
+            int[] n = new int[]{10, 20, 30, 40};
+            i = n;
+        }
 
-        
+        //main i = 변수
+        //-> n의 값을 i(name)에 주면
+        //-> 메모리는 사라지고 없고{n스택} = 영역
+        //(이름을 다 입력 받았으면 n스택을 없앰)
+        //-> n이 받았던 값을 i가 가짐
+        //
+        //최종적으로 (입력 받았던)데이터만 남음
+        //= 공간 최적화 = 메모리를 효율적으로 사용
 
-
-
-
+         */
 
 
 
