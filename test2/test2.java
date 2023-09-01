@@ -1,6 +1,18 @@
 public class test2 {
     public static void main(String[] args) {
 
+
+        Test test = new Test();
+        test.Output();
+
+
+
+
+
+
+
+
+
         // 서점
         // 판타지, 부동산
         // 로맨스, SA
