@@ -1,0 +1,8 @@
+[source,options="nowrap"]
+----
+{
+  "email" : "user@green.com",
+  "password" : "Password@123",
+  "username" : "임꺽정"
+}
+----

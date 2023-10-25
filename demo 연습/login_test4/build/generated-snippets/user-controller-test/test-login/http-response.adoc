@@ -1,0 +1,22 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQGdyZWVuLmNvbSIsInJvbGVzIjoiUk9MRV9VU0VSIiwiaWQiOjIsImV4cCI6MTY5ODE1NjgwNn0.kwrE98WLp74tGU6vrX63L2tgp_U-1k_2nNIK4aIxswpst_V4uzMUXYUShYh6sFKCwelO_BJe-nOF84RkK0LIng
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: SAMEORIGIN
+Content-Length: 65
+
+{
+  "success" : true,
+  "response" : null,
+  "error" : null
+}
+----

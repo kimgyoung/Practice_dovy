@@ -1,0 +1,10 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/login' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{
+  "email" : "user@green.com",
+  "password" : "Password@123",
+  "username" : "임꺽정"
+}'
+----
