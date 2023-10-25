@@ -42,8 +42,8 @@ public class User{
     @Id
 
     /* @Id 어노테이션과 함께 사용
-     * GenerationType.IDENTITY 전략은 데이터베이스에 레코드를 삽입할 때,
-     * 데이터베이스가 자동으로 아이디를 생성하도록 함.
+     * GenerationType.IDENTITY 전략은 데이터 베이스에 레코드를 삽입할 때,
+     * 데이터 베이스가 자동으로 아이디를 생성하도록 함.
      * */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

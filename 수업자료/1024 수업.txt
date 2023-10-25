@@ -7,6 +7,6 @@ join 할때는 @Sql 닫고
 login 할때는 열고
 
 password
-- 똑같은걸로
+- 똑같은걸로(암호화 된)
 
 응답 값이 false = 실패 

@@ -20,7 +20,7 @@ public class StringArrayConverter implements AttributeConverter<List<String>, St
 
     @Override
     public List<String> convertToEntityAttribute(String dbData) {
-        // ** JPA 가 save를 할떄, select 부터 진행하기 때문에 값이 null 인지 확인해야한다.
+        // ** JPA 가 save를 할떄, select 부터 진행하기 때문에 값이 null 인지 확인 해야 한다.
         if(dbData == null)
             return Collections.emptyList();
         else
