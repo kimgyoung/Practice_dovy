@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Kakao 로그인 제발요</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<h1>회원 가입</h1>
+
+<form id="joinForm">
+    <input type="hidden" id="nickname" name="nickname">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="phoneNumber">PhoneNumber:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" required><br><br>
+
+    <input type="submit" id="register-button" value="Submit" disabled>
+</form>
+
+<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?client_id=2573ecdca19c0b24e9bddc7d85b04084&redirect_uri=http://localhost:8080/kakao_login&response_type=code">
+    <img src="https://developers.kakao.com/assets/img/about/logos/login/kr/kakao_account_login_btn_medium_narrow.png">
+</a>
+
+<script>
+    // 카카오 로그인 요청
+    $.get('/kakao_login', function(response) {
+        // 로그인이 성공했을 때 회원가입 페이지로 이동
+        if (response.success) {
+            var userInformation = response.userInformation;
+            // 사용자 정보를 화면에 출력
+            $('#email').val(userInformation.email);
+            $('#username').val(userInformation.nickname);
+            // 회원가입 버튼을 활성화
+            $('#register-button').prop('disabled', false);
+        } else {
+            alert("Error: " + response.error.message);
+        }
+    });
+
+    // 회원가입 버튼 클릭 이벤트
+    $('#register-button').click(function(e) {
+        e.preventDefault();
+
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var username = document.getElementById('username').value;
+        var phoneNumber = document.getElementById('phoneNumber').value;
+
+        var userInformation = {
+            email,
+            password,
+            username,
+            phoneNumber
+        };
+
+        // 회원가입 요청
+        $.ajax({
+            url: '/kakao_register',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(userInformation),
+            success: function(response) {
+                // 회원가입이 성공했을 때
+                alert('회원가입이 완료되었습니다.');
+                window.location.href = 'http://localhost:8080/login';
+            },
+            error: function(error) {
+                // 회원가입이 실패했을 때
+                alert('회원가입에 실패했습니다: ' + error);
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
