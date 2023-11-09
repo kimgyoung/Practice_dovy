@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title> 제발 </title>
+</head>
+<body>
+
+<button th:if="${code}" th:onclick="'window.location.href=' + '/KakaoJoin'">회원 가입 하기</button>
+<button th:if="${code}" onclick="window.location.href='/'">돌아 가기</button>
+
+<script>
+    window.onload = function() {
+        alert("로그인 성공!");
+    }
+</script>
+</body>
+</html>
