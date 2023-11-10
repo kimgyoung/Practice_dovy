@@ -35,7 +35,7 @@ public class User{
     @Column(length = 45, nullable = false)
     private String username;
 
-    @Column(length = 11, nullable = false)
+    @Column(length = 11, nullable = true)
     private String phoneNumber;
 
     @Column(length = 30)

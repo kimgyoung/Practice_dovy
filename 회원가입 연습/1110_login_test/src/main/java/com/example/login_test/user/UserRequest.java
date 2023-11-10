@@ -30,8 +30,9 @@ public class UserRequest {
         @NotEmpty
         private String username;
 
+        @NotEmpty
+        @Pattern(regexp = "^[0-9]{10,11}$", message = "휴대폰 번호는 숫자 10~11자리만 가능합니다.")
         private String phoneNumber;
-
 
         public User toEntity() {
             return User.builder()
@@ -48,13 +49,11 @@ public class UserRequest {
     public static class KakaoJoinDTO {
         private String email;
         private String username;
-        private String phoneNumber = "0000000000"; // Default phone number
 
         public User toEntity() {
             return User.builder()
                     .email(email)
                     .username(username)
-                    .phoneNumber(phoneNumber) // Set phone number
                     .roles(Collections.singletonList("ROLE_USER"))
                     .isKakaoUser(true)
                     .build();
@@ -65,18 +64,14 @@ public class UserRequest {
     @Setter
     public static class KakaoLoginDTO {
         private String email;
-        private String phoneNumber = "0000000000"; // Default phone number
 
         public User toEntity() {
             return User.builder()
                     .email(email)
-                    .phoneNumber(phoneNumber) // Set phone number
                     .isKakaoUser(true)
                     .build();
         }
     }
-
-
 }
 
 
