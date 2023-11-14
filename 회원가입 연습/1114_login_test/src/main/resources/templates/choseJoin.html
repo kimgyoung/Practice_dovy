@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title> 제발 </title>
+</head>
+<body>
+<h2>카카오로 회원 가입</h2>
+<button onclick="kakaoJoin()">회원 가입</button>
+<button onclick="window.location.href='/'">돌아 가기</button>
+
+<script th:inline="javascript">
+    function kakaoJoin() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (!code) {
+            alert("인증 코드가 없습니다.");
+            return;
+        }
+
+        fetch('/kakaoJoin?code=' + code, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        }).then(async response => {
+            if (response.ok) {
+                alert("회원 가입에 성공했습니다!");
+                window.location.href = '/';
+            } else {
+                const result = await response.json();
+                alert("Error: " + result.error.message);
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+</body>
+</html>
