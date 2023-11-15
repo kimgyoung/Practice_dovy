@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>제발</title>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+</head>
+<body>
+<button id="joinButton" th:if="${code}">회원 가입 하기</button>
+<button th:if="${code}" onclick="window.location.href='/'">돌아 가기</button>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.getElementById('joinButton').addEventListener('click', async function() {
+        // 세션에서 사용자 정보 받아오기
+        let userInformation = /*[[${userInformation}]]*/ 'default';
+
+        if (!userInformation) {
+            console.error('Failed to get user info. User information is undefined.');
+            return;
+        }
+
+        // 사용자 가입 처리
+        try {
+            const response = await fetch('/kakaoJoin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: userInformation.email, username: userInformation.nickname })
+            });
+
+            const result = await response.json();
+
+            // 서버로부터 받은 사용자 정보 출력
+            console.log("Email: " + result.email);
+            console.log("Username: " + result.username);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+    /*]]>*/
+</script>
+</body>
+</html>
