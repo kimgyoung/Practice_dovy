@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>제발</title>
+</head>
+<body>
+
+<form id="joinForm" action="/kakaoJoin" method="post">
+    <button type="submit">회원 가입 하기</button>
+</form>
+<button onclick="window.location.href='/'">돌아 가기</button>
+
+<button id="kakao-logout-btn">카카오 로그아웃</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('joinForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const response = await fetch('/kakaoJoin', {
+                method: 'POST',
+                // 추가적인 헤더나 바디가 필요하다면 이곳에 추가하세요.
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                window.location.href = '/realChoco.html';
+            } else {
+                alert("Error: " + result.error.message);
+            }
+        });
+        const kakaoLogoutBtn = document.getElementById('kakao-logout-btn');
+        kakaoLogoutBtn.addEventListener('click', function() {
+            window.location.href = '/logout.html';  // 로그아웃 페이지로 이동
+        });
+    });
+</script>
+
+</body>
+</html>

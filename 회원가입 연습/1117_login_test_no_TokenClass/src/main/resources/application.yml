@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+kakao:
+  api:
+    key: "6c74bcfaa9a04a33a56f4c8e26236a0e"
+    authUri: "https://kauth.kakao.com/oauth"
+    redirectUri: "http://localhost:8080/kakaoLogin"
+    logoutRedirectUri: "http://localhost:8080/kakaoLogout"

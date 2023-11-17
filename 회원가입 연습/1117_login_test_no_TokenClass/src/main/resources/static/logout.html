@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그아웃 페이지</title>
+</head>
+<body>
+<h2>로그아웃 하기 </h2>
+<button id="kakao-logout-btn" style="background-color: #FEE500;">카카오 로그아웃</button>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const kakaoLogoutBtn = document.getElementById('kakao-logout-btn');
+        kakaoLogoutBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+
+            try {
+                const response = await fetch('http://localhost:8080/kakaoLogout', {
+                    method: 'GET',
+                });
+
+                if (response.ok) {
+                    const logoutUrl = await response.text();
+                    window.location.href = logoutUrl;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+</script>
+</body>
+</html>
