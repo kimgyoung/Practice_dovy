@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>page</title>
+</head>
+<body>
+<button onclick="creat()"> 글쓰기</button>
+
+<tr th:each="board: ${boardList}">
+    <td th:text="${board.getId}"></td>
+    <td> <a th:href="@{${board.getId}|(page = ${boardList.number + 1})}" th:text="${board.getTitle()}"></a></td>
+    <td th:text="*{#temporals.format(board.getCreateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+</tr>
+<script>
+    const create = () => {
+        location.href = "/createBoard";
+    }
+</script>
+</body>
+</html>
