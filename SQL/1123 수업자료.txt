@@ -1,0 +1,89 @@
+11/23
+
+회원가입 시 - DTO / id?
+쓰면 됨?
+
+// 리포지토리에서 다시 들고 왔을 때 다시 (엔티티를)Dto로 만들어 줘야하는데
+    // 여기서 만들어 놓으면 변환하기가 수월 해짐
+    public static BoardDto toBoardDto(Board board){
+        return new BoardDto(
+                board.getId(),
+                board.getTitle(),
+                board.getUsername(),
+                board.getContents(),
+                board.getCreateTime(),
+                board.getUpdateTime()
+        );
+    }
+}
+
+
+--
+내가 나중에 쓰려면 어떻게 해야하는 지
+순서 그려가면서 해야함
+--
+
+모든 기능을 CRUD로 분류 해야 함
+
+생성 작성이 서버에 가장 부하를 많이 가져옴
+
+R D 가 항상 어려움 - 요구사항이 다르기 때문에 뭘 어디서 불러올지 모름
+DTO가 여러개 필요 할 수도
+
+요구사항에 따라서 로그인 안에서도 여러 디티오가 발생 가능
+지금은 게시판 하나라..
+--
+
+@주입성 어노테이션
+말고
+-> @AllArgsConstructor
+
+--
+[당연한 like 숨쉬기]
+원래 서비스는 기본적으로
+@Transactional read only가 맞는데
+
+save는 변경 사항이 이뤄지는데, 읽기 전용이면 안되니까
+서비스 계층은
+
+(변경 사항이 발생 할 만한)
+트랜잭션이 발생할만한 함수에다가 별도로 트랜잭셔널 처리!
+
+--
+옵셔널은 존재하냐 안존재하냐 를 따지는 데
+겟 을하면 그 데이터를 들고 오게 됨
+엔티티 넣으면 디티오로 변환되게 끔 만들어준 함수
+로 반환을 해주면 디티오로 반환이 되겠져ㅛ
+->> 컨트롤 넘어가면 에러 잡아짐
+
+겟을 쓸 때는 옵셔널에 먼저 데이터가 포함이 되어있느지 아닌지 해줘야함
+isPresent
+
+
+ public BoardDto findById(Long id) {
+        // 예외 처리 생략
+        // if(boardRepository.findById(id).isPresent()){}
+        Board board = boardRepository.findById(id).get();
+        return BoardDto.toBoardDto(board);
+    }
+
+포폴 시 예외 처리 원래 다 해줘야 함
+--
+
+
+업데이트에 해당하는 아이디를
+디비에서 불러와서
+보드에다가 디티오 넘겨줬지.
+
+html의 보드.id 에 넘겨주겠다
+- 타이틀과 텍스트 변경값을 html에서 가꼬와서
+
+post업데이트 메소드에서 받아와서 처리
+
+--
+new 값이 반환되는 toBoardDto
+이므로 새로 생성이 되어버리는 현상이됨 save시
+따라서 보드 클래스에
+따로 만듦
+
+new가 아니니까 .. 변경이 되겟지
