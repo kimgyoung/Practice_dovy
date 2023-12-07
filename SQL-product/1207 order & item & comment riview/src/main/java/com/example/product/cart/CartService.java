@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class CartService {
-    private CartRepository cartRepository;
-    private OptionRepositry optionRepositry;
+    private final CartRepository cartRepository;
+    private final OptionRepositry optionRepositry;
 
     // 카트 리스트 다 찾아와서 FindAllDto로 반환
     public CartResponse.FindAllDto findAll() {

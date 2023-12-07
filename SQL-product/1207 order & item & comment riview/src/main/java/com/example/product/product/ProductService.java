@@ -31,7 +31,6 @@ public class ProductService {
                                                       //뭘 생성할 지       //비어있는 기본 생성자 생성
                 productPage.getContent().stream().map(ProductResponse.FindAllDto::new)
                 .collect(Collectors.toList());
-
         return productDtos;
     }
 

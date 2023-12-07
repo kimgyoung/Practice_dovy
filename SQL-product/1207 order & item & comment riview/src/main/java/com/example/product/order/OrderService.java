@@ -24,6 +24,7 @@ public class OrderService {
 
     // 사용자의 장바구니에 있는 각 아이템을 주문 아이템으로 변환하고, 이를 주문 정보에 연결
     // 사용자의 주문 정보 저장
+    @Transactional
     public OrderResponse.FindByIdDto save(User user) {
         // user id 를 가지고 있는 카트들은 다 검색
         // 장바구니 조회

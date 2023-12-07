@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class CartController {
-    private CartService cartService;
+    private final CartService cartService;
 
     // 카트에 상품 추가
     @PostMapping("/carts/add")
@@ -38,7 +38,6 @@ public class CartController {
     }
     // CustomUserDetails 가 없으면 확인 조차 할 수 없음
     // CustomUserDetails 유저 정보를 가져 와야 유저 정보를 받아올 수 있음, 쓸 수 있음
-
 
     // 카트 전체 상품 확인
     @GetMapping("/carts")           // 인증 받은 것들만 접근 가능 - 매개 변수 customUserDetails로 전달 - 인증 X시 401에러
