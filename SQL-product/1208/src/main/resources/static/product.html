@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>product</title>
+</head>
+<body>
+<h1>상품 등록</h1>
+
+<form id="productForm" enctype="multipart/form-data">
+    <label for="productName">상품 이름:</label>
+    <input type="text" id="productName" name="productName" required><br><br>
+
+    <label for="description">상품 설명:</label>
+    <input type="text" id="description" name="description" required><br><br>
+
+    <label for="image">상품 이미지:</label>
+    <input type="file" id="image" name="image" required><br><br>
+
+    <label for="price">상품 가격:</label>
+    <input type="number" id="price" name="price" required><br><br>
+
+    <button type="button" id="productSubmitButton">상품 등록</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const submitProductForm = async () => {
+            const productName = document.getElementById('productName').value;
+            const description = document.getElementById('description').value;
+            const image = document.getElementById('image').value;
+            const price = document.getElementById('price').value;
+
+            const data = {
+                productName,
+                description,
+                image,
+                price,
+            };
+
+            try {
+                const response = await fetch('http://localhost:8080/products/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("상품 등록에 성공했습니다!");
+                    window.location.href = '/product.html';
+                } else {
+                    alert("에러: " + result.error.message);
+                }
+
+            } catch (error) {
+                console.error('에러:', error);
+            }
+        };
+
+        document.getElementById('productSubmitButton').addEventListener('click', submitProductForm);
+    });
+</script>
+
+</body>
+</html>
