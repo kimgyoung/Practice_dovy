@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .top-bar {
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            font-size: 20px;  /* Decreased font size */
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .menu {
+            text-align: center;
+            margin: 20px 0;
+            background-color: white;
+        }
+
+        .menu button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .menu button:hover {
+            background-color: #45a049;
+        }
+
+        .section {
+            padding: 20px;
+            background-color: white;
+        }
+
+        footer {
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .img-container {
+            width: 25%;
+            margin: auto;
+            margin-top: 20px;  /* Added a margin at the top */
+        }
+
+        .img-container img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="top-bar">
+    <h3>Board</h3>
+</div>
+
+<div class="header">
+    <h1>Hello, Dovy's Home</h1>
+</div>
+
+<div class="img-container">
+    <img src="/dovy.png" alt="Dovy's Image" class="img-fluid mx-auto d-block">
+</div>
+
+<div class="menu">
+    <button onclick="create()">글쓰기</button>
+    <button onclick="paging()">게시판</button>
+    <button onclick="login()">로그인</button>
+    <button onclick="join()">회원가입</button>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+        </div>
+    </div>
+</div>
+
+<footer>
+    Copyright © 2023 Dovy's Home Spring Boot Board
+</footer>
+
+<script>
+    const create = () => {
+        location.href = "/board/create";
+    }
+    const paging = () => {
+        location.href = "/board/paging";
+    }
+    const login = () => {
+        location.href = "/login";
+    }
+    const join = () => {
+        location.href = "/join";
+    }
+</script>
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
