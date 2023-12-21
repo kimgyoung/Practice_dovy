@@ -86,7 +86,7 @@ public class SecurityConfig {
         http.authorizeRequests(
                 authorize -> {
                     try {
-                        authorize.antMatchers("/board/**").hasAnyRole("ADMIN", "USER") // 게시판 관련 작업은 로그인한 사용자와 관리자만 가능
+                        authorize.antMatchers("/board/save").hasAnyRole("ADMIN", "USER") // 게시판 관련 작업은 로그인한 사용자와 관리자만 가능
                                 .antMatchers("/admin/**").hasRole("ADMIN") // 관리자 페이지는 관리자만 접근 가능
                                 .anyRequest().permitAll() // 그 외 요청은 모두 허용
                                 .and()

@@ -3,14 +3,12 @@ package com.example.demo.board;
 import com.example.demo.file.FileDto;
 import com.example.demo.file.BoardFile;
 import com.example.demo.file.FileRepository;
-import com.example.demo.security.CustomUserDetails;
 import com.example.demo.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +37,7 @@ public class BoardService {
     // 가져온 데이터 DB에 저장
     @Transactional
     public void save(User user, BoardDto boardDto, MultipartFile[] files) throws IOException {
+
         boardDto.setCreateTime(LocalDateTime.now());
         // 저장 경로
         Path uploadPath = Paths.get(filePath);
