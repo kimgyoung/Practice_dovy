@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import com.example.demo.board.Board;
+import com.example.demo.comment.Comment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,9 @@ public class User {
     // 수정 필요
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Comment> Comments = new ArrayList<>();
 
     @Column(length = 100, nullable = false)
     private String email;

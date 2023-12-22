@@ -5,6 +5,8 @@ import com.example.demo.board.Board;
 import com.example.demo.comment.Comment;
 import com.example.demo.board.BoardRepository;
 import com.example.demo.comment.CommentRepository;
+import com.example.demo.user.User;
+import com.example.demo.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +22,19 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public Comment save(CommentDto commentDto) {
         Optional<Board> optionalBoard =
                 boardRepository.findById(commentDto.getBoardId());
+        Optional<User> optionalUser =
+                userRepository.findById(commentDto.getUserId());
 
         if(optionalBoard.isPresent()){
             Board foundBoard  = optionalBoard.get();
-            Comment comment = commentDto.toEntity(foundBoard);
+            User fuondUser = optionalUser.get();
+            Comment comment = commentDto.toEntity(foundBoard,fuondUser);
             return commentRepository.save(comment);
         } else {
             return null;

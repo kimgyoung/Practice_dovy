@@ -152,7 +152,7 @@
             <th>내용</th>
             <th>작성 시간</th>
             <th>댓글 삭제</th>
-            <th>댓글 수정</th> <!-- 댓글 수정 컬럼 추가 -->
+            <th>댓글 수정</th>
         </tr>
         </thead>
         <tbody>
@@ -183,6 +183,9 @@
             // 요청 방식: post, 요청 주소: /comment/save, 요청 데이터: 작성자, 작성 내용, 게시글 번호
             type: "post",
             url: "/comment/save",
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+            },
             data: {
                 "writer": jsWriter,
                 "contents": jsContents,
@@ -244,6 +247,9 @@
         $.ajax({
             type: "GET",
             url: "/comment/delete/" + commentId,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+            },
             success: function (res) {
                 console.log("댓글 삭제 성공", res);
                 // 삭제한 댓글을 화면에서도 제거 // 처음 태그 부터
