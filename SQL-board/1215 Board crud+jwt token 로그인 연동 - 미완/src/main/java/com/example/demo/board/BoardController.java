@@ -99,8 +99,10 @@ public class BoardController {
 
     // id 값 가져 와서 게시 글 삭제
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id){
-        boardService.delete(id);
+    public String delete(@PathVariable Long id,
+                         @AuthenticationPrincipal CustomUserDetails userDetails){
+        Long userId = userDetails.getUser().getId();
+        boardService.delete(id,userId);
         return "home";
     }
 

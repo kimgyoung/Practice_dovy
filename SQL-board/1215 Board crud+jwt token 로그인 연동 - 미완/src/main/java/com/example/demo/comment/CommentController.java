@@ -26,11 +26,7 @@ public class CommentController {
         commentDto.setUserId(userId);
         CommentDto SavedCommentDto = CommentDto.fromEntity(commentService.save(commentDto));
 
-        if (SavedCommentDto != null){
-            return new ResponseEntity<>(SavedCommentDto, HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(SavedCommentDto, HttpStatus.OK);
     }
 
     @GetMapping("/list/{boardId}")
@@ -43,13 +39,19 @@ public class CommentController {
     public ResponseEntity<CommentDto> deleteComment
             (@PathVariable Long commentId,
              @AuthenticationPrincipal CustomUserDetails userDetails) {
-        Long userId = userDetails.getUser().getId();
+        // userDetails 가 null 인 경우 처리
+        if (userDetails == null) {
+            // 로그인 되지 않은 사용자에 대한 처리
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
-        if(.getUser().getId().equals(userId)){
-            Comment deletedComment = commentService.deleteComment(commentId);
+        Long userId = userDetails.getUser().getId();
+        try {
+            Comment deletedComment = commentService.deleteComment(commentId, userId);
             CommentDto deletedCommentDto = CommentDto.fromEntity(deletedComment);
             return ResponseEntity.ok(deletedCommentDto);
-        }else{
+        } catch (IllegalArgumentException e) {
+            // 댓글 삭제 권한이 없는 사용자에 대한 처리
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }

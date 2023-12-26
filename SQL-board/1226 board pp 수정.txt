@@ -1,0 +1,24 @@
+12/26
+
+id 다른데 삭제 오류
+userId == Board.userId
+! userId == Board Id XXX
+해ㅑ결
+
+
+---
+
+= 본인 아이디 x 시 처리, 경고창 추가 하기
+버튼 숨기기 댓글 , 게시글 CRUD
+
+userName 대신 user email == id? || 찐 유저네임
+
+
+--
+C 예외처리 해야함
+
+
+게시글 RUD 완료
+댓글 RU 진행중  D 완료
+회원가입시 경고창.. 추가 완료
+---

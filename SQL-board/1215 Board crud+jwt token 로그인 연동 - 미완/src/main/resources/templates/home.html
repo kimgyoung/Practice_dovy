@@ -117,10 +117,17 @@
     }
     const logout = async () => {
         try {
+            const jwt = localStorage.getItem('jwt');
+
+            if (!jwt) {
+                alert('로그인 상태가 아닙니다.');
+                return;
+            }
+
             const response = await fetch('/logout', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('jwt'),
+                    'Authorization': 'Bearer ' + jwt,
                 },
             });
 
@@ -139,6 +146,7 @@
             alert('에러가 발생했습니다.');
         }
     };
+
 
 </script>
 <!-- Bootstrap JS and jQuery -->

@@ -130,26 +130,31 @@ public class BoardService {
         if(boardRepository.findById(boardDto.getId()).isPresent()){
             Optional<Board> boardOptional = boardRepository.findById(boardDto.getId());
             Board board = boardOptional.get();
-
-            // 새로운 파일이 있다면 기존 파일을 삭제 하고 새 파일을 업로드
-            if (newFiles != null && newFiles.length > 0 && !newFiles[0].isEmpty()) {
-                // 기존에 첨부 되어 있던 파일 삭제
-                List<BoardFile> oldFiles = fileRepository.findByBoardId(board.getId());
-                for (BoardFile oldFile : oldFiles) {
-                    deleteFile(board.getId());  // 기존 파일 삭제
+            if(board.getUser().getId().equals(user.getId())){
+                // 새로운 파일이 있다면 기존 파일을 삭제 하고 새 파일을 업로드
+                if (newFiles != null && newFiles.length > 0 && !newFiles[0].isEmpty()) {
+                    // 기존에 첨부 되어 있던 파일 삭제
+                    List<BoardFile> oldFiles = fileRepository.findByBoardId(board.getId());
+                    for (BoardFile oldFile : oldFiles) {
+                        deleteFile(board.getId());  // 기존 파일 삭제
+                    }
+                    // 새로운 파일을 저장 하고 DB에 저장
+                    save(user, boardDto, newFiles);
                 }
-                // 새로운 파일을 저장 하고 DB에 저장
-                save(user, boardDto, newFiles);
+                // 게시글 정보를 업데이트 하고 DB에 저장
+                board.updateFromDto(boardDto);
+                boardRepository.save(board);
             }
-            // 게시글 정보를 업데이트 하고 DB에 저장
-            board.updateFromDto(boardDto);
-            boardRepository.save(board);
         }
     }
 
     @Transactional
-    public void delete(Long id) {
-        boardRepository.deleteById(id);
+    public void delete(Long boardId, Long userId) {
+        Optional<Board> board = boardRepository.findById(boardId);
+        Long boardUserId = board.get().getUser().getId();
+        if(boardUserId.equals(userId)){
+            boardRepository.deleteById(boardId);
+        }
     }
     public BoardFile getFileByBoardId(Long boardId) {
         List<BoardFile> boardFiles = fileRepository.findByBoardId(boardId);

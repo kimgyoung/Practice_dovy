@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,19 +27,13 @@ public class CommentService {
 
     @Transactional
     public Comment save(CommentDto commentDto) {
-        Optional<Board> optionalBoard =
-                boardRepository.findById(commentDto.getBoardId());
-        Optional<User> optionalUser =
-                userRepository.findById(commentDto.getUserId());
+        Board foundBoard = boardRepository.findById(commentDto.getBoardId())
+                .orElseThrow(() -> new NoSuchElementException("해당 ID를 가진 게시글이 존재하지 않습니다: " + commentDto.getBoardId()));
+        User foundUser = userRepository.findById(commentDto.getUserId())
+                .orElseThrow(() -> new NoSuchElementException("해당 ID를 가진 사용자가 존재하지 않습니다: " + commentDto.getUserId()));
 
-        if(optionalBoard.isPresent()){
-            Board foundBoard  = optionalBoard.get();
-            User fuondUser = optionalUser.get();
-            Comment comment = commentDto.toEntity(foundBoard,fuondUser);
-            return commentRepository.save(comment);
-        } else {
-            return null;
-        }
+        Comment comment = commentDto.toEntity(foundBoard, foundUser);
+        return commentRepository.save(comment);
     }
 
     public List<CommentDto> getCommentsByBoardId(Long boardId) {
@@ -49,11 +44,12 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment deleteComment(Long commentId) {
+    public Comment deleteComment(Long commentId, Long userId) {
         Comment deletedComment = commentRepository.findById(commentId).orElse(null);
-        if (deletedComment != null) {
-            commentRepository.deleteById(commentId);
+        if (deletedComment == null || !deletedComment.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException();
         }
+        commentRepository.deleteById(commentId);
         return deletedComment;
     }
 
