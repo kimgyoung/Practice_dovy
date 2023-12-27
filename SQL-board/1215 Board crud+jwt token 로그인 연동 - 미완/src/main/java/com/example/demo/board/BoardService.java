@@ -4,6 +4,7 @@ import com.example.demo.file.FileDto;
 import com.example.demo.file.BoardFile;
 import com.example.demo.file.FileRepository;
 import com.example.demo.user.User;
+import com.example.demo.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +32,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final FileRepository fileRepository;
+    private final UserRepository userRepository;
     private final String filePath = "C:/Users/G/Desktop/portfolio_board/boardFile/";
     //private final String filePath = "C:/Users/김가영/Desktop/portfolio_board/Board/boardFile/";
 
@@ -106,13 +108,13 @@ public class BoardService {
             return new BoardDto(
                     board.getId(),
                     board.getTitle(),
-                    board.getUsername(),
+                    board.getUser().getNickname(),
                     board.getContents(),
                     board.getCreateTime(),
                     board.getUpdateTime(),
                     board.getFileExists(),
-                    fileDtos,  // 'fileDtos'를 생성자에 추가
-                    board.getUser() != null ? board.getUser().getId() : null
+                    fileDtos,
+                    board.getUser().getId()
             );
         });
     }
@@ -136,7 +138,7 @@ public class BoardService {
                     // 기존에 첨부 되어 있던 파일 삭제
                     List<BoardFile> oldFiles = fileRepository.findByBoardId(board.getId());
                     for (BoardFile oldFile : oldFiles) {
-                        deleteFile(board.getId());  // 기존 파일 삭제
+                        deleteFile(board.getId(), user.getId());  // 기존 파일 삭제
                     }
                     // 새로운 파일을 저장 하고 DB에 저장
                     save(user, boardDto, newFiles);
@@ -165,41 +167,39 @@ public class BoardService {
         }
     }
     @Transactional
-    public void deleteFile(Long boardId){
+    public void deleteFile(Long boardId, Long userId){
         BoardFile boardFile = getFileByBoardId(boardId);
+        Optional<User> user = userRepository.findById(userId);
+        Long foundUserId = user.get().getId();
+        if(boardFile.getBoard().getUser().getId().equals(foundUserId)){
+            // 실제 파일 시스템에서의 파일 경로
+            String deleteFilePath = filePath + boardFile.getUuid()+ boardFile.getFileName();
+            File file = new File(deleteFilePath);
 
-        if (boardFile == null) {
-            System.out.println("해당하는 boardId의 파일이 없습니다.");
-            return;
-        }
-
-        // 실제 파일 시스템에서의 파일 경로
-        String deleteFilePath = filePath + boardFile.getUuid()+ boardFile.getFileName();
-        File file = new File(deleteFilePath);
-
-        if(file.exists()){
-            if(file.delete()){
-                System.out.println("파일이 삭제되었습니다.");
+            if(file.exists()){
+                if(file.delete()){
+                    System.out.println("파일이 삭제 되었습니다.");
+                }else{
+                    System.out.println("파일 삭제 실패");
+                }
             }else{
-                System.out.println("파일 삭제 실패");
+                System.out.println("파일이 존재하지 않습니다.");
             }
-        }else{
-            System.out.println("파일이 존재하지 않습니다.");
-        }
 
-        // DB 에서의 파일 정보 삭제
-        try {
-            fileRepository.deleteById(boardFile.getId());
+            // DB 에서의 파일 정보 삭제
+            try {
+                fileRepository.deleteById(boardFile.getId());
 
-            // 게시글에 첨부된 모든 파일이 삭제 되었다면 fileExists를 false로 설정
-            Board board = boardFile.getBoard();
-            if (fileRepository.findByBoardId(board.getId()).isEmpty()) {
-                board.setFileExists(false);
-                boardRepository.save(board);  // 변경된 상태를 DB에 저장
+                // 게시글에 첨부된 모든 파일이 삭제 되었다면 fileExists를 false로 설정
+                Board board = boardFile.getBoard();
+                if (fileRepository.findByBoardId(board.getId()).isEmpty()) {
+                    board.setFileExists(false);
+                    boardRepository.save(board);  // 변경된 상태를 DB에 저장
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("DB에서 파일 정보를 삭제 하는 데 실패 했습니다.");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("DB에서 파일 정보를 삭제 하는 데 실패 했습니다.");
         }
     }
 }

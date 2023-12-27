@@ -62,7 +62,8 @@ public class CommentController {
              @RequestParam String contents,
              @AuthenticationPrincipal CustomUserDetails userDetails){
 
-        Comment updatedComment = commentService.updateComment(commentId, contents);
+        Long userId = userDetails.getUser().getId();
+        Comment updatedComment = commentService.updateComment(commentId, contents, userId);
 
         if (updatedComment != null) {
             CommentDto updatedCommentDto = CommentDto.fromEntity(updatedComment);

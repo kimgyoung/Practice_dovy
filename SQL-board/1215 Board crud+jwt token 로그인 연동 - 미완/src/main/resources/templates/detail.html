@@ -111,7 +111,7 @@
     </tr>
     <tr>
         <th>작성자</th>
-        <td th:text="${board.getUsername}"></td>
+        <td th:text="${board.getNickName}"></td>
     </tr>
     <tr>
         <th>작성 시간</th>
@@ -221,6 +221,9 @@
         $.ajax({
             type: "GET",
             url: "/file/delete/" + boardId,
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+            },
             success: function (res) {
                 console.log("파일 삭제 성공", res);
                 // 파일 삭제 성공 시 로직 구현
@@ -294,6 +297,9 @@
                 data: {
                     "id": commentId,
                     "contents": editCommentValue
+                },
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                 },
                 success: function (res) {
                     console.log("댓글 수정 성공", res);

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,23 +23,23 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
 
     @Transactional
-    public void join(UserDto userDto) {
+    public void join(UserRequest.JoinDto joinDto) {
         // 동일한 이메일 존재 하는 지 확인
-        Optional<User> byEmail = userRepository.findByEmail(userDto.getEmail());
+        Optional<User> byEmail = userRepository.findByEmail(joinDto.getEmail());
         if(byEmail.isPresent()){
-            throw new Exception400("이미 존재 하는 이메일 입니다." + userDto.getEmail());
+            throw new Exception400("이미 존재 하는 이메일 입니다." + joinDto.getEmail());
         }
         // password 인코딩
-        String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-        userDto.setPassword(encodedPassword); // 인코딩 된 비밀번호를 UserDto에 설정
-        userRepository.save(userDto.toEntity());
+        String encodedPassword = passwordEncoder.encode(joinDto.getPassword());
+        joinDto.setPassword(encodedPassword); // 인코딩 된 비밀번호를 UserDto에 설정
+        userRepository.save(joinDto.toEntity());
     }
 
     @Transactional
-    public String login(UserDto userDto) {
+    public String login(UserRequest.LoginDto loginDto) {
         try {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                    = new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword());
+                    = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
             // anonymousUser = 비인증
             Authentication authentication = authenticationManager.authenticate(
                     usernamePasswordAuthenticationToken

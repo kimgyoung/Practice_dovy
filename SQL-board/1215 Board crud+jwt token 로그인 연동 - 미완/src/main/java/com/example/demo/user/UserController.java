@@ -1,7 +1,6 @@
 package com.example.demo.user;
 
 import com.example.demo.error.exception.Exception401;
-import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +20,15 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody @Valid UserDto userDto){
-        userService.join(userDto);
+    public ResponseEntity<?> join(@RequestBody @Valid UserRequest.JoinDto joinDto){
+        userService.join(joinDto);
         return ResponseEntity.ok(ApiUtils.success(null));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid UserDto userDto){
+    public ResponseEntity<?> login(@RequestBody @Valid UserRequest.LoginDto loginDto){
         try {
-            String jwt = userService.login(userDto);
+            String jwt = userService.login(loginDto);
             return ResponseEntity.ok().header("Authorization", "Bearer " + jwt).body(ApiUtils.success(null));
         } catch (Exception e) {
             throw new Exception401("인증 실패");

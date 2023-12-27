@@ -20,8 +20,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 45)
-    private String username;
+    private String nickName;
 
     @Column(length = 100, nullable = false)
     private String title;
@@ -50,9 +49,9 @@ public class Board {
     private User user;
 
     @Builder
-    public Board(Long id, String username, String title, String contents, LocalDateTime createTime, LocalDateTime updateTime, Boolean fileExists, User user){
+    public Board(Long id, String nickName, String title, String contents, LocalDateTime createTime, LocalDateTime updateTime, Boolean fileExists, User user){
         this.id = id;
-        this.username = username;
+        this.nickName = nickName;
         this.title = title;
         this.contents = contents;
         this.createTime = createTime;
@@ -63,9 +62,12 @@ public class Board {
 
     public void updateFromDto(BoardDto boardDto){
         // 모든 변경 사항을 셋팅
-        this.title = boardDto.getTitle();;
+        this.nickName = boardDto.getNickName();
+        this.title = boardDto.getTitle();
         this.contents = boardDto.getContents();
-        this.username = boardDto.getUsername();
+        this.createTime = boardDto.getCreateTime();
+        this.updateTime = LocalDateTime.now();
+        this.fileExists = fileExists != null ? fileExists : false;
     }
 
     public void setFileExists(Boolean fileExists) {

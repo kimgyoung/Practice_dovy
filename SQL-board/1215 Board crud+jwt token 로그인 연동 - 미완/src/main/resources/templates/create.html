@@ -59,7 +59,6 @@
 <h1>글 작성</h1>
 <form id="boardForm" action="/board/save" method="post" enctype="multipart/form-data">
     title: <input type="text" name="title"> <br>
-    writer: <input type="text" name="username"> <br>
     contents: <textarea name="contents" cols="30" rows="10"></textarea> <br>
     <div id="file-inputs">
         file: <input type="file" name="file" multiple class="new-file"> <br>
@@ -76,12 +75,10 @@
             e.preventDefault();
 
             const title = boardForm.elements.title.value;
-            const writer = boardForm.elements.username.value;
             const contents = boardForm.elements.contents.value;
             const files = Array.from(boardForm.elements.file.files);
             const formData = new FormData();
             formData.append('title', title);
-            formData.append('writer', writer);
             formData.append('contents', contents);
 
             // 파일이 추가 되었을 때만 반복문 실행

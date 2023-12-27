@@ -15,10 +15,9 @@ import java.util.stream.Collectors;
 @ToString
 public class BoardDto {
 
-    // username -> User 클래스 생성? user id? nickname?
     private Long id;
     private String title;
-    private String username;
+    private String nickName;
     private String contents;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
@@ -30,10 +29,10 @@ public class BoardDto {
         return Board.builder()
                 .id(id)
                 .title(title)
-                .username(username)
+                .nickName(user.getNickname())
                 .contents(contents)
                 .createTime(createTime)
-                .updateTime(LocalDateTime.now())
+                .updateTime(updateTime)
                 .fileExists(fileExists)
                 .user(user)
                 .build();
@@ -47,7 +46,7 @@ public class BoardDto {
         return new BoardDto(
                 board.getId(),
                 board.getTitle(),
-                board.getUsername(),
+                board.getUser().getNickname(),
                 board.getContents(),
                 board.getCreateTime(),
                 board.getUpdateTime(),

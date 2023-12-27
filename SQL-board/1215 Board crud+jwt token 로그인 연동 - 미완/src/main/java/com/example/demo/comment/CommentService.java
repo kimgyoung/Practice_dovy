@@ -54,14 +54,19 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment updateComment(Long commentId, String contents) {
+    public Comment updateComment(Long commentId, String contents, Long userId) {
         Optional<Comment> optionalComment =
                 commentRepository.findById(commentId);
-        if(optionalComment.isPresent()){
+        Optional<User> optionalUser =
+                userRepository.findById(userId);
+        if(optionalComment.isPresent() && optionalUser.isPresent()){
             Comment comment = optionalComment.get();
-            CommentDto commentDto = new CommentDto(contents);
-            comment.updateComment(commentDto);
-            return comment;
+            User user = optionalUser.get();
+            if(user.getId().equals(commentId)){
+                CommentDto commentDto = new CommentDto(contents);
+                comment.updateComment(commentDto);
+                return comment;
+            }
         }
         return null;
     }

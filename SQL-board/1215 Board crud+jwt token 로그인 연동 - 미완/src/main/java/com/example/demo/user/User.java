@@ -18,7 +18,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 수정 필요
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Board> boards = new ArrayList<>();
 
@@ -34,11 +33,15 @@ public class User {
     @Convert(converter = StringArrayConverter.class)
     private List<String> roles = new ArrayList<>();
 
+    @Column (length = 45, nullable = false)
+    private String nickname;
+
     @Builder
-    public User(Long id, String email, String password, List<String> roles) {
+    public User(Long id, String email, String password, List<String> roles, String nickname) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.nickname = nickname;
     }
 }

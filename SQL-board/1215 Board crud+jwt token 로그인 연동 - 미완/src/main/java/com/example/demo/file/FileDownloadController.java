@@ -1,10 +1,12 @@
 package com.example.demo.file;
 
 import com.example.demo.board.BoardService;
+import com.example.demo.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,8 +45,10 @@ public class FileDownloadController {
     }
 
     @GetMapping("file/delete/{boardId}")
-    public String fileDelete(@PathVariable("boardId") Long boardId){
-        boardService.deleteFile(boardId);
-        return "redirect:/"; // 파일 삭제 후 리다이렉트 할 경로
+    public String fileDelete(@PathVariable("boardId") Long boardId,
+                             @AuthenticationPrincipal CustomUserDetails userDetails){
+        Long userId = userDetails.getUser().getId();
+        boardService.deleteFile(boardId, userId);
+        return "redirect:/";
     }
 }
