@@ -42,7 +42,6 @@ public class BoardController {
                        @ModelAttribute BoardDto boardDto,
                        @RequestParam (required=false) MultipartFile[] files) throws IOException {
         if(userDetails == null) {throw new Exception401("로그인이 필요합니다.");}
-        boardDto.setCreateTime(LocalDateTime.now());
         User user = userDetails.getUser();
         boardService.save(user, boardDto, files);
         return "redirect:/board/";
@@ -105,5 +104,4 @@ public class BoardController {
         boardService.delete(id,userId);
         return "home";
     }
-
 }

@@ -33,13 +33,12 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final FileRepository fileRepository;
     private final UserRepository userRepository;
-    private final String filePath = "C:/Users/G/Desktop/portfolio_board/boardFile/";
-    //private final String filePath = "C:/Users/김가영/Desktop/portfolio_board/Board/boardFile/";
+    //private final String filePath = "C:/Users/G/Desktop/portfolio_board/boardFile/";
+    private final String filePath = "C:/Users/김가영/Desktop/portfolio_board/Board/boardFile/";
 
     // 가져온 데이터 DB에 저장
     @Transactional
     public void save(User user, BoardDto boardDto, MultipartFile[] files) throws IOException {
-
         boardDto.setCreateTime(LocalDateTime.now());
         // 저장 경로
         Path uploadPath = Paths.get(filePath);
@@ -49,7 +48,6 @@ public class BoardService {
         // 게시글 DB에 저장 후 pk를 받아 옴
         Long id = boardRepository.save(boardDto.toEntity(user)).getId();
         Board board = boardRepository.findById(id).get();
-
         // 파일 정보 저장
         if (files != null) {
             for (MultipartFile file : files) {
@@ -59,16 +57,12 @@ public class BoardService {
                     // 확장자 추출
                     String formatType = originalFileName.substring(
                             originalFileName.lastIndexOf("."));
-
                     // UUID 생성
                     String uuid = UUID.randomUUID().toString();
-
                     // 경로 지정 // C:/Users/G/Desktop/demo/boardFile/{uuid + originalFileName}
                     String path = filePath + uuid + originalFileName;
-
                     // 경로에 파일을 저장. (NO DB)
                     file.transferTo(new File(path));
-
                     BoardFile boardFile = BoardFile.builder()
                             .filePath(filePath)
                             .fileName(originalFileName)
@@ -126,7 +120,7 @@ public class BoardService {
         }
         return null;
     }
-
+    // 기존 게시글을 업데이트, 새로운 파일이 전송되면 이를 업로드하고 기존 파일을 삭제
     @Transactional
     public void update(User user, BoardDto boardDto, MultipartFile[] newFiles) throws IOException {
         if(boardRepository.findById(boardDto.getId()).isPresent()){
@@ -138,13 +132,11 @@ public class BoardService {
                     // 기존에 첨부 되어 있던 파일 삭제
                     List<BoardFile> oldFiles = fileRepository.findByBoardId(board.getId());
                     for (BoardFile oldFile : oldFiles) {
-                        deleteFile(board.getId(), user.getId());  // 기존 파일 삭제
+                        deleteFile(board.getId(), user.getId());
                     }
-                    // 새로운 파일을 저장 하고 DB에 저장
                     save(user, boardDto, newFiles);
                 }
-                // 게시글 정보를 업데이트 하고 DB에 저장
-                board.updateFromDto(boardDto);
+                board.updateFromDto(boardDto);  // 게시글 정보를 업데이트 하고 DB에 저장
                 boardRepository.save(board);
             }
         }
