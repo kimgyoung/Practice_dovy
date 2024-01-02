@@ -56,7 +56,7 @@ public class Board {
         this.contents = contents;
         this.createTime = createTime;
         this.updateTime = updateTime;
-        this.fileExists = fileExists != null ? fileExists : false;  // fileExists 필드가 null이면 false로 설정
+        this.fileExists = fileExists;
         this.user = user;
     }
 
@@ -65,8 +65,8 @@ public class Board {
         this.nickName = boardDto.getNickName();
         this.title = boardDto.getTitle();
         this.contents = boardDto.getContents();
-        this.createTime = boardDto.getCreateTime();
-        this.updateTime = LocalDateTime.now();
+        this.createTime = boardDto.getUpdateTime(); // 수정 필요
+        this.updateTime = boardDto.getUpdateTime();
         this.fileExists = fileExists != null ? fileExists : false;
     }
 

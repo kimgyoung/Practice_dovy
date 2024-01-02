@@ -40,6 +40,7 @@ public class BoardService {
     @Transactional
     public void save(User user, BoardDto boardDto, MultipartFile[] files) throws IOException {
         boardDto.setCreateTime(LocalDateTime.now());
+        boardDto.setNickName(user.getNickname()); // 이름? !!
         // 저장 경로
         Path uploadPath = Paths.get(filePath);
         if (!Files.exists(uploadPath)) {
@@ -136,6 +137,7 @@ public class BoardService {
                     }
                     save(user, boardDto, newFiles);
                 }
+                boardDto.setUpdateTime(LocalDateTime.now()); // !!
                 board.updateFromDto(boardDto);  // 게시글 정보를 업데이트 하고 DB에 저장
                 boardRepository.save(board);
             }
